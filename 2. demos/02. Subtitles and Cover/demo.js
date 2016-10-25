@@ -1,64 +1,3 @@
-## [chromecast-js](https://github.com/warren-bank/chromecast-js)
-
-chromecast-js is a javascript client library for googlecast's remote playback protocol that uses DefaultMediaReceiver to play any (compatible) content in the Chromecast, it works by wrapping the [node-castv2-client](https://github.com/thibauts/node-castv2-client) module.
-
-## Project Fork
-
-* [original `chromecast-js` project](https://github.com/guerrerocarlos/chromecast-js)
-* forked from commit [`1e31b76bd6d1936938142eefb55f7fd6caefa905`](https://github.com/guerrerocarlos/chromecast-js/tree/1e31b76bd6d1936938142eefb55f7fd6caefa905) on `Oct 25, 2016`
-
-## Reason For Fork
-
-* I still own and use several of the original version 1 Chromecast devices
-* At this time, the [`node-ssdp`](https://github.com/diversario/node-ssdp) dependency used to detect Chromecast devices on the network is unable to find any of mine
-* [`chromecast-scanner`](https://github.com/xat/chromecast-scanner) is a different project that scans the network for Chromecast devices, and it works perfectly
-* I quickly modified this project to swap the two
-
-## Usage
-
-* Cleaned up.. ever-so-slightly
-
-``` javascript
-var video_url = 'http://commondatastorage.googleapis.com/gtv-videos-bucket/big_buck_bunny_1080p.mp4';
-
-var eventEmitter = require('chromecast-js').eventEmitter;
-
-eventEmitter.on('device', function(device){
-    device.connect();
-    device.on('connected', function(){
-
-        // play video: begin at 60 seconds
-        device.play(video_url, 60, function(){
-            console.log('Playing in your chromecast!')
-        });
-
-        setTimeout(
-            function(){
-                device.pause(function(){
-                    console.log('Paused!')
-                });
-            },
-            30000
-        );
-
-        setTimeout(
-            function(){
-                device.stop(function(){
-                    console.log('Stopped!')
-                });
-            },
-            40000
-        );
-
-    });
-});
-```
-
-## Subtitles and Cover
-
-To include subtitles and a cover image with the media title, use an Object instead of a string in the *play method*:
-
-``` javascript
 var media = {
     url : 'http://commondatastorage.googleapis.com/gtv-videos-bucket/big_buck_bunny_1080p.mp4',
     subtitles: [{
@@ -91,7 +30,7 @@ var media = {
     }
 };
 
-var eventEmitter = require('chromecast-js').eventEmitter;
+var eventEmitter = require('../..').eventEmitter;
 
 eventEmitter.on('device', function(device){
     device.connect();
@@ -253,14 +192,3 @@ eventEmitter.on('device', function(device){
         });
     });
 });
-```
-
-## Copyright
-
-* not me..
-* [Carlos Guerrero](https://github.com/guerrerocarlos)
-
-## License
-
-* GNU GPL v2.0
-* [original project](https://github.com/guerrerocarlos/chromecast-js) was released with the [ISC license](http://www.isc.org/downloads/software-support-policy/isc-license/)
